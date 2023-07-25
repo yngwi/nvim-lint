@@ -175,7 +175,7 @@ local function eval_fn_or_id(x)
 end
 
 local function is_win_cmd(cmd)
-  local exts = {'.exe', '.bat', '.com'}
+  local exts = {'.exe', '.bat', '.cmd'}
   cmd = cmd:lower()
   for _, e in pairs(exts) do
       if cmd:sub(-#e) == e then return true end
@@ -188,6 +188,7 @@ local function get_real_cmd(cmd)
     return cmd .. '.cmd'
   else
     return cmd
+  end
 end
 
 ---@param linter lint.Linter
