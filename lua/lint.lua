@@ -174,6 +174,21 @@ local function eval_fn_or_id(x)
   end
 end
 
+local function is_win_cmd(cmd)
+  local exts = {'.exe', '.bat', '.com'}
+  cmd = cmd:lower()
+  for _, e in pairs(exts) do
+      if cmd:sub(-#e) == e then return true end
+  end
+  return false
+end
+
+local function get_real_cmd(cmd)
+  if vim.loop.os_uname().version:match('Windows') and not is_win_cmd(cmd) then
+    return cmd .. '.cmd'
+  else
+    return cmd
+end
 
 ---@param linter lint.Linter
 ---@param opts? {cwd?: string, ignore_errors?: boolean}
@@ -214,7 +229,7 @@ function M.lint(linter, opts)
   }
   local cmd = eval_fn_or_id(linter.cmd)
   assert(cmd, 'Linter definition must have a `cmd` set: ' .. vim.inspect(linter))
-  handle, pid_or_err = uv.spawn(cmd, linter_opts, function(code)
+  handle, pid_or_err = uv.spawn(get_real_cmd(cmd), linter_opts, function(code)
     if handle and not handle:is_closing() then
       local procs = (running_procs_by_buf[bufnr] or {})
       procs[linter.name] = nil
