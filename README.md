@@ -89,6 +89,7 @@ Other dedicated linters that are built-in are:
 | [credo][credo]                     | `credo`           |
 | [cspell][36]                       | `cspell`          |
 | [curlylint][curlylint]             | `curlylint`       |
+| [djlint][djlint]                   | `djlint`          |
 | [erb-lint][erb-lint]               | `erb_lint`        |
 | [ESLint][25]                       | `eslint`          |
 | [eslint_d][37]                     | `eslint_d`        |
@@ -144,6 +145,7 @@ Other dedicated linters that are built-in are:
 | [vint][21]                         | `vint`            |
 | [vulture][vulture]                 | `vulture`         |
 | [yamllint][yamllint]               | `yamllint`        |
+| [tfsec][tfsec]                     | `tfsec`           |
 
 ## Custom Linters
 
@@ -271,7 +273,6 @@ phpcs.args = {
 
 ## Alternatives
 
-- [null-ls.nvim][null-ls]
 - [Ale][1]
 - [efm-langserver][6]
 - [diagnostic-languageserver][7]
@@ -282,19 +283,14 @@ phpcs.args = {
 
 ### Run tests
 
-Running tests requires [plenary.nvim][plenary] to be checked out in the parent directory of *this* repository, as well as `python` resolvable via PATH.
-You can then run:
+Running tests requires [busted][busted].
+
+See [neorocks][neorocks] or [Using Neovim as Lua interpreter with
+Luarocks][neovim-luarocks] for installation instructions.
 
 ```bash
-nvim --headless --noplugin -u tests/minimal.vim -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal.vim'}"
+busted tests/
 ```
-
-Or if you want to run a single test file:
-
-```bash
-nvim --headless --noplugin -u tests/minimal.vim -c "PlenaryBustedDirectory tests/vale_spec.lua {minimal_init = 'tests/minimal.vim'}"
-```
-
 
 [1]: https://github.com/dense-analysis/ale
 [3]: https://github.com/junegunn/vim-plug
@@ -331,8 +327,9 @@ nvim --headless --noplugin -u tests/minimal.vim -c "PlenaryBustedDirectory tests
 [35]: https://github.com/david-a-wheeler/flawfinder
 [36]: https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell
 [37]: https://github.com/mantoni/eslint_d.js
-[null-ls]: https://github.com/jose-elias-alvarez/null-ls.nvim
-[plenary]: https://github.com/nvim-lua/plenary.nvim
+[neorocks]: https://github.com/nvim-neorocks/neorocks
+[neovim-luarocks]: https://zignar.net/2023/01/21/using-luarocks-as-lua-interpreter-with-luarocks/
+[busted]: https://lunarmodules.github.io/busted/
 [ansible-lint]: https://docs.ansible.com/lint.html
 [pcs-docs]: https://pycodestyle.pycqa.org/en/latest/
 [pydocstyle]: https://www.pydocstyle.org/en/stable/
@@ -368,7 +365,7 @@ nvim --headless --noplugin -u tests/minimal.vim -c "PlenaryBustedDirectory tests
 [nagelfar]: https://nagelfar.sourceforge.net/
 [oelint-adv]: https://github.com/priv-kweihmann/oelint-adv
 [cfn_nag]: https://github.com/stelligent/cfn_nag
-[ruff]: https://github.com/charliermarsh/ruff
+[ruff]: https://github.com/astral-sh/ruff
 [janet]: https://github.com/janet-lang/janet
 [bandit]: https://bandit.readthedocs.io/en/latest/
 [bean-check]: https://beancount.github.io/docs/running_beancount_and_generating_reports.html#bean-check
@@ -378,3 +375,5 @@ nvim --headless --noplugin -u tests/minimal.vim -c "PlenaryBustedDirectory tests
 [actionlint]: https://github.com/rhysd/actionlint
 [buf_lint]: https://github.com/bufbuild/buf
 [erb-lint]: https://github.com/shopify/erb-lint
+[tfsec]: https://github.com/aquasecurity/tfsec
+[djlint]: https://djlint.com/
