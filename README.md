@@ -97,6 +97,7 @@ Other dedicated linters that are built-in are:
 | [fennel][fennel]                   | `fennel`          |
 | [Flake8][13]                       | `flake8`          |
 | [flawfinder][35]                   | `flawfinder`      |
+| [gdlint (gdtoolkit)][gdlint]       | `gdlint`          |
 | [Golangci-lint][16]                | `golangcilint`    |
 | [glslc][glslc]                     | `glslc`           |
 | [DirectX Shader Compiler][dxc]     | `dxc`             |
@@ -117,6 +118,8 @@ Other dedicated linters that are built-in are:
 | [Nix][nix]                         | `nix`             |
 | [npm-groovy-lint][npm-groovy-lint] | `npm-groovy-lint` |
 | [oelint-adv][oelint-adv]           | `oelint-adv`      |
+| [perlcritic][perlcritic]           | `perlcritic`      |
+| [perlimports][perlimports]         | `perlimports`     |
 | [php][php]                         | `php`             |
 | [phpcs][phpcs]                     | `phpcs`           |
 | [phpmd][phpmd]                     | `phpmd`           |
@@ -140,6 +143,7 @@ Other dedicated linters that are built-in are:
 | [StandardRB][27]                   | `standardrb`      |
 | [statix check][33]                 | `statix`          |
 | [stylelint][29]                    | `stylelint`       |
+| [Solhint][solhint]                 | `solhint`         |
 | [Nagelfar][nagelfar]               | `nagelfar`        |
 | [Vale][8]                          | `vale`            |
 | [Verilator][verilator]             | `verilator`       |
@@ -379,3 +383,7 @@ busted tests/
 [tfsec]: https://github.com/aquasecurity/tfsec
 [djlint]: https://djlint.com/
 [buildifier]: https://github.com/bazelbuild/buildtools/tree/master/buildifier
+[solhint]: https://protofire.github.io/solhint/
+[perlimports]: https://github.com/perl-ide/App-perlimports
+[perlcritic]: https://github.com/Perl-Critic/Perl-Critic
+[gdlint]: https://github.com/Scony/godot-gdscript-toolkit
