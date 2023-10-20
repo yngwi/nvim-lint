@@ -70,9 +70,12 @@ Other dedicated linters that are built-in are:
 | ---------------------------------- | ---------------------  |
 | Set via `makeprg`                  | `compiler`             |
 | [actionlint][actionlint]           | `actionlint`           |
+| [alex][alex]                       | `alex`                 |
 | [ansible-lint][ansible-lint]       | `ansible_lint`         |
 | [bandit][bandit]                   | `bandit`               |
 | [bean-check][bean-check]           | `bean_check`           |
+| [biomejs][biomejs]                 | `biomejs`              |
+| [blocklint][blocklint]             | `blocklint`            |
 | [buf_lint][buf_lint]               | `buf_lint`             |
 | [buildifier][buildifier]           | `buildifier`           |
 | [cfn-lint][cfn-lint]               | `cfn_lint`             |
@@ -85,12 +88,15 @@ Other dedicated linters that are built-in are:
 | [clj-kondo][24]                    | `clj-kondo`            |
 | [cmakelint][cmakelint]             | `cmakelint`            |
 | [codespell][18]                    | `codespell`            |
+| [commitlint][commitlint]           | `commitlint`           |
 | [cppcheck][22]                     | `cppcheck`             |
 | [cpplint][cpplint]                 | `cpplint`              |
 | [credo][credo]                     | `credo`                |
 | [cspell][36]                       | `cspell`               |
 | [curlylint][curlylint]             | `curlylint`            |
+| [deno][deno]                       | `deno`                 |
 | [djlint][djlint]                   | `djlint`               |
+| [dotenv-linter][dotenv-linter]     | `dotenv_linter`        |
 | [editorconfig-checker][ec]         | `editorconfig-checker` |
 | [erb-lint][erb-lint]               | `erb_lint`             |
 | [ESLint][25]                       | `eslint`               |
@@ -127,6 +133,7 @@ Other dedicated linters that are built-in are:
 | [phpstan][phpstan]                 | `phpstan`              |
 | [proselint][proselint]             | `proselint`            |
 | [psalm][psalm]                     | `psalm`                |
+| [puppet-lint][puppet-lint]         | `puppet-lint`          |
 | [pycodestyle][pcs-docs]            | `pycodestyle`          |
 | [pydocstyle][pydocstyle]           | `pydocstyle`           |
 | [Pylint][15]                       | `pylint`               |
@@ -141,7 +148,9 @@ Other dedicated linters that are built-in are:
 | [Ruff][ruff]                       | `ruff`                 |
 | [Selene][31]                       | `selene`               |
 | [ShellCheck][10]                   | `shellcheck`           |
+| [snyk][snyk]                       | `snyk_iac`             |
 | [sqlfluff][sqlfluff]               | `sqlfluff`             |
+| [standardjs][standardjs]           | `standardjs`           |
 | [StandardRB][27]                   | `standardrb`           |
 | [statix check][33]                 | `statix`               |
 | [stylelint][29]                    | `stylelint`            |
@@ -151,8 +160,11 @@ Other dedicated linters that are built-in are:
 | [Verilator][verilator]             | `verilator`            |
 | [vint][21]                         | `vint`                 |
 | [vulture][vulture]                 | `vulture`              |
+| [woke][woke]                       | `woke`                 |
+| [write-good][write-good]           | `write_good`           |
 | [yamllint][yamllint]               | `yamllint`             |
 | [tfsec][tfsec]                     | `tfsec`                |
+| [trivy][trivy]                     | `trivy`                |
 
 ## Custom Linters
 
@@ -385,6 +397,7 @@ busted tests/
 [buf_lint]: https://github.com/bufbuild/buf
 [erb-lint]: https://github.com/shopify/erb-lint
 [tfsec]: https://github.com/aquasecurity/tfsec
+[trivy]: https://github.com/aquasecurity/trivy
 [djlint]: https://djlint.com/
 [buildifier]: https://github.com/bazelbuild/buildtools/tree/master/buildifier
 [solhint]: https://protofire.github.io/solhint/
@@ -393,3 +406,14 @@ busted tests/
 [gdlint]: https://github.com/Scony/godot-gdscript-toolkit
 [rpm]: https://rpm.org
 [ec]: https://github.com/editorconfig-checker/editorconfig-checker
+[deno]: https://github.com/denoland/deno
+[standardjs]: https://standardjs.com/
+[biomejs]: https://github.com/biomejs/biome
+[commitlint]: https://commitlint.js.org
+[alex]: https://alexjs.com/
+[blocklint]: https://github.com/PrincetonUniversity/blocklint
+[woke]: https://docs.getwoke.tech/
+[write-good]: https://github.com/btford/write-good
+[dotenv-linter]: https://dotenv-linter.github.io/
+[puppet-lint]: https://github.com/puppetlabs/puppet-lint
+[snyk]: https://github.com/snyk/cli
