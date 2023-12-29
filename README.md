@@ -7,21 +7,31 @@ built-in Language Server Protocol support.
 
 With [ale][1] we already got an asynchronous linter, why write yet another one?
 
-Because [ale][1] reports diagnostics with its own home grown solution and even
-includes its own language server client.
+Because [ale][1] also includes its own language server client.
 
-`nvim-lint` instead uses the `vim.diagnostic` module to present diagnostics in
-the same way the language client built into neovim does.
-`nvim-lint` is meant to fill the gaps for languages where either no language
-server exists, or where standalone linters provide better results than the
-available language server do.
+`nvim-lint` instead has a more narrow scope: It spawns linters, parses their
+output, and reports the results via the `vim.diagnostic` module.
+
+`nvim-lint` complements the built-in language server client for languages where
+there are no language servers, or where standalone linters provide better
+results.
 
 ## Installation
 
 - Requires Neovim >= 0.6.0
-- `nvim-lint` is a plugin. Install it like any other Neovim plugin.
-  - If using [vim-plug][3]: `Plug 'mfussenegger/nvim-lint'`
-  - If using [packer.nvim][4]: `use 'mfussenegger/nvim-lint'`
+- `nvim-lint` is a regular plugin and can be installed via the `:h packages`
+  mechanism or via a plugin manager.
+
+For example:
+
+```bash
+git clone \
+    https://github.com/mfussenegger/nvim-lint.git
+    ~/.config/nvim/pack/plugins/start/nvim-lint
+```
+
+- If using [vim-plug][3]: `Plug 'mfussenegger/nvim-lint'`
+- If using [packer.nvim][4]: `use 'mfussenegger/nvim-lint'`
 
 
 ## Usage
@@ -94,6 +104,7 @@ Other dedicated linters that are built-in are:
 | [credo][credo]                     | `credo`                |
 | [cspell][36]                       | `cspell`               |
 | [curlylint][curlylint]             | `curlylint`            |
+| [dash][dash]                       | `dash`                 |
 | [deno][deno]                       | `deno`                 |
 | [djlint][djlint]                   | `djlint`               |
 | [dotenv-linter][dotenv-linter]     | `dotenv_linter`        |
@@ -102,9 +113,11 @@ Other dedicated linters that are built-in are:
 | [ESLint][25]                       | `eslint`               |
 | [eslint_d][37]                     | `eslint_d`             |
 | [fennel][fennel]                   | `fennel`               |
+| [fish][fish]                       | `fish`                 |
 | [Flake8][13]                       | `flake8`               |
 | [flawfinder][35]                   | `flawfinder`           |
 | [gdlint (gdtoolkit)][gdlint]       | `gdlint`               |
+| [gitlint][gitlint]                 | `gitlint`              |
 | [Golangci-lint][16]                | `golangcilint`         |
 | [glslc][glslc]                     | `glslc`                |
 | [DirectX Shader Compiler][dxc]     | `dxc`                  |
@@ -113,6 +126,7 @@ Other dedicated linters that are built-in are:
 | [HTML Tidy][12]                    | `tidy`                 |
 | [Inko][17]                         | `inko`                 |
 | [janet][janet]                     | `janet`                |
+| [joker][joker]                     | `joker`                |
 | [jshint][jshint]                   | `jshint`               |
 | [jsonlint][jsonlint]               | `jsonlint`             |
 | [ktlint][ktlint]                   | `ktlint`               |
@@ -129,13 +143,16 @@ Other dedicated linters that are built-in are:
 | [perlimports][perlimports]         | `perlimports`          |
 | [php][php]                         | `php`                  |
 | [phpcs][phpcs]                     | `phpcs`                |
+| [phpinsights][phpinsights]         | `phpinsights`          |
 | [phpmd][phpmd]                     | `phpmd`                |
 | [phpstan][phpstan]                 | `phpstan`              |
+| [prisma-lint][prisma-lint]         | `prisma-lint`          |
 | [proselint][proselint]             | `proselint`            |
 | [psalm][psalm]                     | `psalm`                |
 | [puppet-lint][puppet-lint]         | `puppet-lint`          |
 | [pycodestyle][pcs-docs]            | `pycodestyle`          |
 | [pydocstyle][pydocstyle]           | `pydocstyle`           |
+| [pyproject-flake8][pflake8]        | `pflake8`              |
 | [Pylint][15]                       | `pylint`               |
 | [Revive][14]                       | `revive`               |
 | [rflint][rflint]                   | `rflint`               |
@@ -155,6 +172,7 @@ Other dedicated linters that are built-in are:
 | [statix check][33]                 | `statix`               |
 | [stylelint][29]                    | `stylelint`            |
 | [Solhint][solhint]                 | `solhint`              |
+| [typos][typos]                     | `typos`                |
 | [Nagelfar][nagelfar]               | `nagelfar`             |
 | [Vale][8]                          | `vale`                 |
 | [Verilator][verilator]             | `verilator`            |
@@ -164,7 +182,9 @@ Other dedicated linters that are built-in are:
 | [write-good][write-good]           | `write_good`           |
 | [yamllint][yamllint]               | `yamllint`             |
 | [tfsec][tfsec]                     | `tfsec`                |
+| [tlint][tlint]                     | `tlint`                |
 | [trivy][trivy]                     | `trivy`                |
+| [zsh][zsh]                         | `zsh`                  |
 
 ## Custom Linters
 
@@ -292,6 +312,35 @@ phpcs.args = {
 ```
 
 
+## Display configuration
+
+See `:help vim.diagnostic.config`.
+
+If you want to have different settings per linter, you can get the `namespace`
+for a linter via `require("lint").get_namespace("linter_name")`. An example:
+
+```lua
+local ns = require("lint").get_namespace("my_linter_name")
+vim.diagnostic.config({ virtual_text = true }, ns)
+```
+
+
+## Get the current running linters for your buffer
+
+You can see which linters are running with `require("lint").get_running()`.
+To include the running linters in the status line you could format them like this:
+
+```lua
+local lint_progress = function()
+  local linters = require("lint").get_running()
+  if #linters == 0 then
+      return "󰦕"
+  end
+  return "󱉶 " .. table.concat(linters, ", ")
+end
+```
+
+
 ## Alternatives
 
 - [Ale][1]
@@ -354,6 +403,7 @@ busted tests/
 [ansible-lint]: https://docs.ansible.com/lint.html
 [pcs-docs]: https://pycodestyle.pycqa.org/en/latest/
 [pydocstyle]: https://www.pydocstyle.org/en/stable/
+[prisma-lint]: https://github.com/loop-payments/prisma-lint
 [checkpatch]: https://docs.kernel.org/dev-tools/checkpatch.html
 [checkstyle]: https://checkstyle.sourceforge.io/
 [jshint]: https://jshint.com/
@@ -370,6 +420,7 @@ busted tests/
 [ktlint]: https://github.com/pinterest/ktlint
 [php]: https://www.php.net/
 [phpcs]: https://github.com/squizlabs/PHP_CodeSniffer
+[phpinsights]: https://github.com/nunomaduro/phpinsights
 [phpmd]: https://phpmd.org/
 [phpstan]: https://phpstan.org/
 [psalm]: https://psalm.dev/
@@ -397,6 +448,7 @@ busted tests/
 [buf_lint]: https://github.com/bufbuild/buf
 [erb-lint]: https://github.com/shopify/erb-lint
 [tfsec]: https://github.com/aquasecurity/tfsec
+[tlint]: https://github.com/tighten/tlint
 [trivy]: https://github.com/aquasecurity/trivy
 [djlint]: https://djlint.com/
 [buildifier]: https://github.com/bazelbuild/buildtools/tree/master/buildifier
@@ -417,3 +469,10 @@ busted tests/
 [dotenv-linter]: https://dotenv-linter.github.io/
 [puppet-lint]: https://github.com/puppetlabs/puppet-lint
 [snyk]: https://github.com/snyk/cli
+[gitlint]: https://github.com/jorisroovers/gitlint
+[pflake8]: https://github.com/csachs/pyproject-flake8
+[fish]: https://github.com/fish-shell/fish-shell
+[zsh]: https://www.zsh.org/
+[typos]: https://github.com/crate-ci/typos
+[joker]: https://github.com/candid82/joker
+[dash]: http://gondor.apana.org.au/~herbert/dash
